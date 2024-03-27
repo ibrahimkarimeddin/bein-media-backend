@@ -10,13 +10,16 @@ class Admin extends Model
 {
     use HasApiTokens, HasFactory;
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array<int, string>
-     */
+ 
     protected $fillable = [
         'email',
         'password',
     ];
+    protected $hidden = [
+        'password',
+        'remember_token',
+        'created_at',
+        'updated_at'
+    ];
+
 }

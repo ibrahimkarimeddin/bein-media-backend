@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\CategoryLevelEnum;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -19,6 +20,15 @@ class Category extends Model
     public function discount()
     {
         return $this->belongsTo(Discount::class);
+    }
+
+    public function items(){
+        return $this->hasMany(Item::class  , 'category_id');
+    }
+
+    public function scopeGetCategoryRoot($query){
+
+        return $query->where('level' , CategoryLevelEnum::Category);
     }
 
 }

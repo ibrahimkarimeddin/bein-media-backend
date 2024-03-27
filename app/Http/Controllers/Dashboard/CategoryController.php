@@ -36,6 +36,9 @@ class CategoryController extends Controller
 
         $data = $createCategoryAction->handel($request);
 
+        if(!$data){
+            return $this->sendError("The Parent Already Have Item Children");
+        }
         return $this->sendResponse(ResponseEnum::ADD ,$data );
 
     }
@@ -43,6 +46,9 @@ class CategoryController extends Controller
 
         $data = $updateCategoryAction->handel($request);
 
+        if(!$data){
+            return $this->sendError("The Parent Already Have Item Children");
+        }
         return $this->sendResponse(ResponseEnum::UPDATE ,$data );
 
     }

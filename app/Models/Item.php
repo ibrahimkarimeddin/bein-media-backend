@@ -1,13 +1,14 @@
 <?php
 namespace App\Models;
 
-use Attribute;
+use App\Enums\DiscountTypeEnum;
 use Illuminate\Database\Eloquent\Model;
 
 class Item extends Model
 {
     protected $fillable = ['name', 'description', 'price', 'category_id', 'discount_id'];
 
+    protected $hidden =['created_at' , 'updated_at'];
     public function category()
     {
         return $this->belongsTo(Category::class);
@@ -19,24 +20,34 @@ class Item extends Model
     }
     public function getPriceAfterDiscountAttribute()
     {
-        $entity = $this; // Can be either an Item or a Category instance
-        while ($entity) {
 
-            if ($entity->discount) {
+        $current_insance = $this;
 
 
-                return (string)($this->price  +  $entity->discount->value);
+        // make recursive while to get discount from  the first parent have discount
+        while ($current_insance) {
+
+            if ($current_insance->discount) {
+
+
+                if($current_insance->discount->type == DiscountTypeEnum::PRECENT){
+                    return (string)($this->price - (($this->price  *  $current_insance->discount->value)/100) );
+                }
+                return (string)($this->price  - $current_insance->discount->value);
             }
-            $entity = $entity->category()->first();
+            $current_insance = $current_insance->category()->first();
 
-            if(!isset($entity)){
+            if(!isset($current_insance)){
                 return $this->price;
             }
         }
-        return null; // No discount found
+
+        return null;
+
     }
 
 
+    // over write  the base funcion to return the price after discount in all time
     public function toArray()
     {
         $array = parent::toArray();

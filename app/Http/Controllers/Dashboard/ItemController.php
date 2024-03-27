@@ -34,7 +34,8 @@ class ItemController extends Controller
     }
     public  function  getAll(GetAllItemRequest $request , GetAllItemAction $getAllItemAction){
 
-        $data = $getAllItemAction->handel();
+         $data = $getAllItemAction->handel();
+
         $response =  new GetAllItemCollection($data);
 
         return $this->sendResponse(ResponseEnum::GET ,$response );
@@ -42,8 +43,11 @@ class ItemController extends Controller
     }
     public  function  create(CreateItemRequest $request , CreateItemAction $createItemAction){
 
-        $data = $createItemAction->handel($request);
+         $data = $createItemAction->handel($request);
 
+         if(!$data){
+            return $this->sendError("There Are Sub Category For This Category ");
+         }
         return $this->sendResponse(ResponseEnum::ADD ,$data );
 
     }
@@ -51,6 +55,9 @@ class ItemController extends Controller
 
         $data = $updateItemAction->handel($request);
 
+        if(!$data){
+            return $this->sendError("There Are Sub Category For This Category ");
+         }
         return $this->sendResponse(ResponseEnum::UPDATE ,$data );
 
     }

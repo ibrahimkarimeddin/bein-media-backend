@@ -13,7 +13,7 @@ class ItemRepository extends CrudBaseRepository
         $this->filterable = [
 
             "search" =>[
-
+                'name'=>"string"
             ],
             "sort" => [
                 'created_at' =>'desc'

@@ -15,13 +15,14 @@ class Controller extends BaseController
     public function sendResponse($type , $data = [])
     {
 
+        // this message will translated later
         $message = ( $type == ResponseEnum::GET)  ?
         ('messages.get_data_successfully')
-        : 
+        :
       ( $type ==  ResponseEnum::ADD ?
-        ('messages.added_successfully') :  
+        ('messages.added_successfully') :
      (   $type  == ResponseEnum::DELETE ?
-        ('messages.deleted_successfully') : 
+        ('messages.deleted_successfully') :
    (     $type == ResponseEnum::UPDATE?
         ('messages.updated_successfully') :
         $type) ));
